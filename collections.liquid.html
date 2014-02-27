@@ -1,0 +1,14 @@
+{% paginate collection.products by 20 %}
+<ul class="collection-matrix">
+ {% for product in collection.products %}
+ <li id="product-{{ forloop.index | plus:paginate.current_offset }}">
+  {% include 'product' with product %}
+ </li> 
+ {% endfor %}
+ <li class="top"><a href="#collectionpage">Back to Top</a> &uarr;</li>        
+ {% if paginate.next %}
+  <li class="more">&darr; <a id="NextPage" href="{{ paginate.next.url }}">More</a></li>        
+ {% endif %}
+</ul>
+<div id="product-list-foot"></div>
+{% endpaginate %}
