@@ -96,8 +96,3 @@ Collection.liquid
 <div id="product-list-foot"></div>
 {% endpaginate %}
 ```
-
-License
-----
-
-MIT
