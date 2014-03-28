@@ -25,7 +25,7 @@ CallBackBeforePageLOad:function(){}, //this function will be executed before the
   <script type="text/javascript">
     $(document).ready(function() {
       var options = {
-        Selectors:{ParentProductWrapper:'PARENTSELECTOR',Product:'ChildSelector',NextPageLink:'NextPageLinkSelector'},
+        Selectors:{ParentProductsWrapper:'PARENTSELECTOR',Product:'ChildSelector',NextPageLink:'NextPageLinkSelector'},
         CallBack:function(){},
         CallBackOnPageLoad:function(){},
         CallBackBeforePageLoad:function(){}
