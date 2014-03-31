@@ -5,30 +5,23 @@ Tricky3 infinite scroll plugin is a plugin that will automatically load next pag
 
 Version 1.0
 
-Options
----------
+Setup Options
+--------
 
-``` javascript
-Selector:{
-  ParentProductWrapper: 'PARENTSELECTOR', //This is the main wrapper
-  Product:'ChildSelector',//This are the child elements</br>
-  NextPageLink:'NextPageLinkSelector',//The next page link, should be unique on the page</br>
-},
-CallBack:function(){}, //this function will be executed after all next pages have been loaded</br>
-CallBackOnPageLoad:function(){}, //this function will be executed after a next page has been loaded</br>
-CallBackBeforePageLOad:function(){}, //this function will be executed before the next page is loaded</br>
-
-```
 ``` HTML
 {% if template contains 'collection' %}
   {{ 'tricky3.infinitescroll.js' | asset_url | script_tag }}
   <script type="text/javascript">
     $(document).ready(function() {
       var options = {
-        Selectors:{ParentProductWrapper:'PARENTSELECTOR',Product:'ChildSelector',NextPageLink:'NextPageLinkSelector'},
-        CallBack:function(){},
-        CallBackOnPageLoad:function(){},
-        CallBackBeforePageLoad:function(){}
+        Selectors:{
+          ParentProductWrapper:'PARENTSELECTOR', // The main wrapper e.g. <ul>
+          Product:'ChildSelector',               // Child elements e.g. <li>
+          NextPageLink:'NextPageLinkSelector'    // Pagination next page link (should be unique)
+        },
+        CallBackBeforePageLoad:function(){} // executed before next page is loaded
+        CallBackOnPageLoad:function(){},    // executed after next page has loaded
+        CallBack:function(){},              // executed after all pages loaded
       };
       $(PARENTSELECTOR).TrickyInfiniteScroll(options);
     });
