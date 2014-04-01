@@ -1,7 +1,9 @@
 (function($){
 	$.fn.TrickyInfiniteScroll = function(options){
 		var opts = {
-			Selectors:{ParentProductsWrapper:'.collection-matrix', Product:'li', NextPageLink:'#NextPage'},
+			Selectors:{ParentProductsWrapper:'.collection-matrix', Product:'li', NextPageLink:'#NextPage', PageQueryStringKey:'page'},
+			PageQueryStringKey:'page',
+			EnableImageLazyLoad:false,
 			CallBack:function(){},
 			CallBackOnPageLoad:function(){},
 			CallBackBeforePageLoad:function(){}
@@ -35,7 +37,11 @@
 		var successCallBack = function(data){
 			var products = $(data).find(opts.Selectors.ParentProductsWrapper);
 			var nextPageLink = $(data).find(opts.Selectors.NextPageLink);
+			var pageNumber = getParameterByName(_nextPageLink.attr('href'), opts.PageQueryStringKey);
+			
+			$(opts.Selectors.Product, products).attr('data-pagenumber', pageNumber);
 			_parentProductWrapper.append(products.html());
+			
 			if(nextPageLink.length == 1){
 			   _nextPageLink.attr('href', nextPageLink.attr('href'));
 			}else{
@@ -44,6 +50,13 @@
 			
 			_isRequestOn = false;
 			opts.CallBackOnPageLoad();
+		};
+		
+		var getParameterByName = function(url, parameterName){
+			parameterName = parameterName.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+			var regex = new RegExp("[\\?&]" + parameterName + "=([^&#]*)"),
+				results = regex.exec(url);
+			return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 		};
 		
 		//hooking scroll event to window.
