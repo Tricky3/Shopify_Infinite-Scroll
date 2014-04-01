@@ -13,6 +13,7 @@ Selector:{
   ParentProductWrapper: 'PARENTSELECTOR', //This is the main wrapper
   Product:'ChildSelector',//This are the child elements</br>
   NextPageLink:'NextPageLinkSelector',//The next page link, should be unique on the page</br>
+  PreviousPageLink:'PreviousPageLinkSelector',//The next page link, should be unique on the page</br>
 },
 CallBack:function(){}, //this function will be executed after all next pages have been loaded</br>
 CallBackOnPageLoad:function(){}, //this function will be executed after a next page has been loaded</br>
@@ -25,7 +26,7 @@ CallBackBeforePageLOad:function(){}, //this function will be executed before the
   <script type="text/javascript">
     $(document).ready(function() {
       var options = {
-        Selectors:{ParentProductsWrapper:'PARENTSELECTOR',Product:'ChildSelector',NextPageLink:'NextPageLinkSelector'},
+        Selectors:{ParentProductsWrapper:'PARENTSELECTOR',Product:'ChildSelector',NextPageLink:'NextPageLinkSelector',PreviousPageLink:'PreviousPageLinkSelector'},
         CallBack:function(){},
         CallBackOnPageLoad:function(){
 			//example showing a loading image when the other page is being loaded...
