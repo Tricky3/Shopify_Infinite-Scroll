@@ -27,8 +27,14 @@ CallBackBeforePageLOad:function(){}, //this function will be executed before the
       var options = {
         Selectors:{ParentProductsWrapper:'PARENTSELECTOR',Product:'ChildSelector',NextPageLink:'NextPageLinkSelector'},
         CallBack:function(){},
-        CallBackOnPageLoad:function(){},
-        CallBackBeforePageLoad:function(){}
+        CallBackOnPageLoad:function(){
+			//example showing a loading image when the other page is being loaded...
+			$('PARENTSELECTOR').append('<div class="LOADING-IMAGE-CLASS"/>');
+		},
+        CallBackBeforePageLoad:function(){
+			//removing the loading image...
+			$('PARENTSELECTOR LOADING-IMAGE-CLASS').remove();
+		}
       };
       $(PARENTSELECTOR).TrickyInfiniteScroll(options);
     });
