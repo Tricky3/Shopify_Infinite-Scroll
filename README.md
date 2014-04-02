@@ -27,6 +27,7 @@ CallBackBeforePageLOad:function(){}, //this function will be executed before the
     $(document).ready(function() {
       var options = {
         Selectors:{ParentProductsWrapper:'PARENTSELECTOR',Product:'ChildSelector',NextPageLink:'NextPageLinkSelector',PreviousPageLink:'PreviousPageLinkSelector'},
+		WaitForImagesToBeLoaded:false//by default this is false, if set to true, other products will be appended after all images have been loaded..
         CallBack:function(){},
         CallBackOnPageLoad:function(){
 			//example showing a loading image when the other page is being loaded...

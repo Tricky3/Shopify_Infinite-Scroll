@@ -3,7 +3,7 @@
 		var opts = {
 			Selectors:{ParentProductsWrapper:'.collection-matrix', Product:'li', NextPageLink:'#NextPaginationLink a', PreviousPageLink:'#PreviousPaginationLink a'},
 			PageQueryStringKey:'page',
-			EnableImageLazyLoad:false,
+			WaitForImagesToBeLoaded:false,
 			CallBack:function(){},
 			CallBackOnPageLoad:function(){},
 			CallBackBeforePageLoad:function(){}
@@ -19,9 +19,8 @@
 		var _needToLoadOnlyNextPages = (_previousPageLink.length == 0 && _nextPageLink.length == 1 );
 	    var _needToLoadOnlyPreviousPages = (_previousPageLink.length == 1 && _nextPageLink.length == 0 );
 	    var _needToLoadBothPreviousAndNextPages = (_previousPageLink.length == 1 && _nextPageLink.length == 1 );
-
         var _urlToLoad = null;
-		
+	
 		var trickyInfiniteScroll = function(){
 			if(_nextPageLink == null && _previousPageLink == null){
 			  opts.CallBack();
@@ -34,31 +33,10 @@
 			var elemTop = $(opts.Selectors.Product+':last', _parentProductWrapper).offset().top;
 			var elemBottom = elemTop + $(opts.Selectors.Product+':last', _parentProductWrapper).height();
 			if(!_isRequestOn && (elemBottom <= docViewBottom) && (elemTop >= docViewTop)) {
-			  loadUrl();
 			  opts.CallBackBeforePageLoad();
+			  Helpers.SetUpUrlToLoad();
 			  $.get(_urlToLoad, successCallBack);
 			  _isRequestOn = true;
-			}
-
-		};
-
-		var loadUrl = function(){
-			if(_needToLoadOnlyPreviousPages){
-				_urlToLoad = _previousPageLink.attr('href');
-			}
-
-			if(_needToLoadOnlyNextPages){
-				_urlToLoad = _nextPageLink.attr('href');
-			}
-
-			if(_needToLoadBothPreviousAndNextPages){
-				if(_previousPageLink.length){
-					_urlToLoad = _previousPageLink.attr('href');
-				}else if(_initialNextPageLink != null){
-					_urlToLoad = _initialNextPageLink.attr('href');
-					_needToLoadOnlyNextPages = true;
-					_needToLoadBothPreviousAndNextPages = false;
-				}
 			}
 		};
 
@@ -66,36 +44,111 @@
 			var products = $(data).find(opts.Selectors.ParentProductsWrapper);
 			_nextPageLink = $(data).find(opts.Selectors.NextPageLink);
 			_previousPageLink = $(data).find(opts.Selectors.PreviousPageLink);
-			//hashUrlAndAddPageAttributes(products);
-			
-			_parentProductWrapper.append(products.html());
-			_isRequestOn = false;
-			opts.CallBackOnPageLoad();
 
-			if(_needToLoadOnlyNextPages && _nextPageLink.length == 0){
-				_needToLoadOnlyNextPages = false;
-				_previousPageLink =  _nextPageLink = null;
-			}
-
-			if(_needToLoadOnlyPreviousPages && _previousPageLink.length == 0){
-				_needToLoadOnlyPreviousPages = false;
-				_nextPageLink =	_previousPageLink = null;
+			if(opts.WaitForImagesToBeLoaded){
+				var totalImages = $('img', products).length;
+				var index = 1;
+				$('img', products).load(function() {
+				  index++;
+				  if(index >= totalImages && _isRequestOn){
+				  	_parentProductWrapper.append(products.html());
+					Helpers.HashUrlAndAddPageAttributesToProducts();
+					Helpers.ReloadPageLinksObjectsAndVariables();
+					opts.CallBackOnPageLoad();
+					_isRequestOn = false;
+				  }
+				}).each(function() {
+				  if(this.complete) 
+				  	$(this).load();
+				});
+			}else{
+				_parentProductWrapper.append(products.html());
+				Helpers.HashUrlAndAddPageAttributesToProducts();
+				Helpers.ReloadPageLinksObjectsAndVariables();
+				opts.CallBackOnPageLoad();
+				_isRequestOn = false;
 			}
 		};
 
-		var hashUrlAndAddPageAttributes = function(){
-			var pageNumber = getParameterByName(_urlToLoad, opts.PageQueryStringKey);
-			$(opts.Selectors.Product, products).attr('data-pagenumber', pageNumber);
-
-		};
 		
-		var getParameterByName = function(url, parameterName){
-			parameterName = parameterName.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-			var regex = new RegExp("[\\?&]" + parameterName + "=([^&#]*)"),
+		var Helpers = {
+			GetParameterByName:function(url, parameterName){
+				parameterName = parameterName.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+			    var regex = new RegExp("[\\?&]" + parameterName + "=([^&#]*)"),
 				results = regex.exec(url);
-			return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+			    return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+			},
+			HashUrlAndAddPageAttributesToProducts:function(){
+				var pageNumber = Helpers.GetParameterByName(_urlToLoad, opts.PageQueryStringKey);
+				if(pageNumber){
+					window.location.hash = opts.PageQueryStringKey+'='+pageNumber;
+				}
+			},
+			ReloadPageLinksObjectsAndVariables:function(){
+				if(_needToLoadOnlyNextPages && _nextPageLink.length == 0){
+					_needToLoadOnlyNextPages = false;
+					_previousPageLink =  _nextPageLink = null;
+				}
+
+				if(_needToLoadOnlyPreviousPages && _previousPageLink.length == 0){
+					_needToLoadOnlyPreviousPages = false;
+					_nextPageLink =	_previousPageLink = null;
+				}
+			},
+			SetUpUrlToLoad:function(){
+				if(_needToLoadOnlyPreviousPages){
+				   _urlToLoad = _previousPageLink.attr('href');
+				}
+
+				if(_needToLoadOnlyNextPages){
+				   _urlToLoad = _nextPageLink.attr('href');
+				}
+
+				if(_needToLoadBothPreviousAndNextPages){
+					if(_previousPageLink.length){
+						_urlToLoad = _previousPageLink.attr('href');
+					}else if(_initialNextPageLink != null){
+						_urlToLoad = _initialNextPageLink.attr('href');
+						_needToLoadOnlyNextPages = true;
+						_needToLoadBothPreviousAndNextPages = false;
+					}
+				}
+			},
+			CheckHashAndReloadPageIfNeeded:function(){
+				var hash = window.location.hash;
+				if(hash && hash.indexOf(opts.PageQueryStringKey) != -1){
+					var pageNumber = hash.split("=")[1];
+					var url = window.location.href.replace(hash, '');
+					var queryStringKeys = window.location.search;
+					if(queryStringKeys == ''){
+						window.location.href = url+'?'+opts.PageQueryStringKey +'='+pageNumber;
+					}else{
+						var queryStringKeysArray = queryStringKeys.replace("?","").split("&");
+						var formattedQueryStringKeys = '';
+						for(var i = 0; i < queryStringKeysArray.length; i++) {
+							if(queryStringKeysArray[i].indexOf(opts.PageQueryStringKey+'=') == -1){
+								formattedQueryStringKeys += queryStringKeysArray[i] +'&';
+							}
+						}
+
+						var url =  window.location.href.replace(window.location.hash,"").replace(window.location.search,"");
+						if(formattedQueryStringKeys != ''){
+							url = url+'?'+formattedQueryStringKeys+opts.PageQueryStringKey+'='+pageNumber;
+						}else{
+							url = url+'?'+opts.PageQueryStringKey+'='+pageNumber;
+						}
+						
+						window.location.href = url;
+					}
+				}
+			},
+
+
 		};
 		
+		//checking hash codes..
+		Helpers.CheckHashAndReloadPageIfNeeded();
+
 		//hooking scroll event to window.
 		$(window).bind('scroll.trickyInfiniteScroll', trickyInfiniteScroll);
 	};
