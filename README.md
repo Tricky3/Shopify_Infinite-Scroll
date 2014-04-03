@@ -27,16 +27,17 @@ CallBackBeforePageLOad:function(){}, //this function will be executed before the
     $(document).ready(function() {
       var options = {
         Selectors:{ParentProductsWrapper:'PARENTSELECTOR',Product:'ChildSelector',NextPageLink:'NextPageLinkSelector',PreviousPageLink:'PreviousPageLinkSelector'},
-		WaitForImagesToBeLoaded:false//by default this is false, if set to true, other products will be appended after all images have been loaded..
-        CallBack:function(){},
+		WaitForImagesToBeLoaded:false,//by default this is false, if set to true, other products will be appended after all images have been loaded..
+		EnableHasherModule:true,//by default this is set to true, this will add hash tags on the window location href and also permits to bookmarks url..
+        CallBack:function(){},//the final callback when all pages have been loaded..
         CallBackOnPageLoad:function(){
 			//example showing a loading image when the other page is being loaded...
 			$('PARENTSELECTOR').append('<div class="LOADING-IMAGE-CLASS"/>');
-		},
+		},//the callback that is called when a page a finished loading
         CallBackBeforePageLoad:function(){
 			//removing the loading image...
 			$('PARENTSELECTOR LOADING-IMAGE-CLASS').remove();
-		}
+		}//the callback that is called before a page is loaded
       };
       $(PARENTSELECTOR).TrickyInfiniteScroll(options);
     });
