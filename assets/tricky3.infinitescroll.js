@@ -22,7 +22,7 @@
         var _urlToLoad = null;
 	
 		var trickyInfiniteScroll = function(){
-			if(_nextPageLink == null && _previousPageLink == null){
+			if(_nextPageLink == null && _previousPageLink == null && _nextPageLink.length == 0 && _previousPageLink.length == 0){
 			  opts.CallBack();
 			  $(window).unbind('scroll.trickyInfiniteScroll');
 			  return;
