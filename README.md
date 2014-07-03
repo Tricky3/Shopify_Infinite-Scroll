@@ -1,7 +1,7 @@
 Tricky3 Infinite Scroll
 =========
 
-Tricky3 infinite scroll plugin is a plugin that will automatically load next pages in ajax and append other elements on the current page. This plugin has been developed mainly to use in shopify stores especially on collection pages but it can be used in any other websites. [1]:
+Scroll plugin that automatically loads next pages using ajax and appends elements on the current page. This plugin has been developed mainly to use in Shopify stores especially on Collection templates, but it can be used for Shopify Blogs and also in any other websites. [1]:
 
 Version 1.0
 
@@ -10,14 +10,14 @@ Options
 
 ``` javascript
 Selector:{
-  ParentProductWrapper: 'PARENTSELECTOR', //This is the main wrapper
-  Product:'ChildSelector',//This are the child elements</br>
-  NextPageLink:'NextPageLinkSelector',//The next page link, should be unique on the page</br>
-  PreviousPageLink:'PreviousPageLinkSelector',//The next page link, should be unique on the page</br>
+  ParentProductWrapper: 'PARENTSELECTOR', // The main wrapper
+  Product:'ChildSelector', // product items 
+  NextPageLink:'NextPageLinkSelector', // Next page link, should be unique on the page
+  PreviousPageLink:'PreviousPageLinkSelector', // Previous page link, should be unique on the page
 },
-CallBack:function(){}, //this function will be executed after all next pages have been loaded</br>
-CallBackOnPageLoad:function(){}, //this function will be executed after a next page has been loaded</br>
-CallBackBeforePageLOad:function(){}, //this function will be executed before the next page is loaded</br>
+CallBackBeforePageLoad:function(){}, // executed before the next page is loaded
+CallBackOnPageLoad:function(){}, // executed after a next page has been loaded
+CallBack:function(){}, // executed after all next pages have been loaded
 
 ```
 ``` HTML
@@ -26,18 +26,23 @@ CallBackBeforePageLOad:function(){}, //this function will be executed before the
   <script type="text/javascript">
     $(document).ready(function() {
       var options = {
-        Selectors:{ParentProductsWrapper:'PARENTSELECTOR',Product:'ChildSelector',NextPageLink:'NextPageLinkSelector',PreviousPageLink:'PreviousPageLinkSelector'},
-		WaitForImagesToBeLoaded:false,//by default this is false, if set to true, other products will be appended after all images have been loaded..
-		EnableHasherModule:true,//by default this is set to true, this will add hash tags on the window location href and also permits to bookmarks url..
-        CallBack:function(){},//the final callback when all pages have been loaded..
+        Selectors:{
+          ParentProductsWrapper:'PARENTSELECTOR',
+          Product:'ChildSelector',
+          NextPageLink:'NextPageLinkSelector',
+          PreviousPageLink:'PreviousPageLinkSelector'
+        },
+        WaitForImagesToBeLoaded:false, // if true products will be appended after all images have loaded
+        EnableHasherModule:true, // adds hash tags on the window location href for URL bookmarks
+        CallBack:function(){},
         CallBackOnPageLoad:function(){
-			//example showing a loading image when the other page is being loaded...
-			$('PARENTSELECTOR').append('<div class="LOADING-IMAGE-CLASS"/>');
-		},//the callback that is called when a page a finished loading
+          // example showing a loading image
+          // $('PARENTSELECTOR').append('<div class="LOADING-IMAGE-CLASS"/>');
+        },
         CallBackBeforePageLoad:function(){
-			//removing the loading image...
-			$('PARENTSELECTOR LOADING-IMAGE-CLASS').remove();
-		}//the callback that is called before a page is loaded
+          // removing the loading image
+          // $('PARENTSELECTOR LOADING-IMAGE-CLASS').remove();
+        }
       };
       $(PARENTSELECTOR).TrickyInfiniteScroll(options);
     });
