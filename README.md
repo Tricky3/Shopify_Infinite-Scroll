@@ -22,7 +22,7 @@ CallBack:function(){}, // executed after all next pages have been loaded
 ```
 ``` HTML
 {% if template contains 'collection' %}
-  {{ 'tricky3.infinitescroll.js' | asset_url | script_tag }}
+  {{ 'tricky3.infinitescroll.v1.js' | asset_url | script_tag }}
   <script type="text/javascript">
     $(document).ready(function() {
       var options = {

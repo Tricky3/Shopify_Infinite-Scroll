@@ -1,3 +1,7 @@
+/*
+Version v1.0
+Author: @Tricky3
+*/
 (function ($) {
     $.fn.TrickyInfiniteScroll = function (options) {
         var GLOBALS = {
@@ -161,7 +165,7 @@
             },
             HashUrlAndAddPageAttributesToProducts: function (products) {
                 var pageNumber = Helpers.GetParameterByName(GLOBALS.UrlToLoad, GLOBALS.Opts.PageQueryStringKey);
-                if (pageNumber) {
+                if (pageNumber){
                     $(GLOBALS.Opts.Selectors.Product, products).attr('data-pagenumber', pageNumber);
                     window.location.hash = GLOBALS.Opts.PageQueryStringKey + '=' + pageNumber;
                 }
