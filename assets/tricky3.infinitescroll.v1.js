@@ -19,7 +19,7 @@ Author: @Tricky3
                 Selectors: { ParentProductsWrapper: '.collection-matrix', Product: 'li', NextPageLink: '#NextPaginationLink a', PreviousPageLink: '#PreviousPaginationLink a' },
                 PageQueryStringKey: 'page',
                 WaitForImagesToBeLoaded: false,
-                EnableHasherModule: true,
+                EnableHasherModule: false,
                 CallBack: function () { },
                 CallBackOnPageLoad: function () { },
                 CallBackBeforePageLoad: function () { }
@@ -40,8 +40,8 @@ Author: @Tricky3
             if (GLOBALS.NextPageLink != null && GLOBALS.NextPageLink.length == 1 || GLOBALS.PreviousPageLink != null && GLOBALS.PreviousPageLink.length == 1) {
                 var docViewTop = $(window).scrollTop();
                 var docViewBottom = docViewTop + $(window).height();
-                var elemTop = $(GLOBALS.Opts.Selectors.Product + ':last', GLOBALS.ParentProductsWrapper).offset().top;
-                var elemBottom = elemTop + $(GLOBALS.Opts.Selectors.Product + ':last', GLOBALS.ParentProductsWrapper).height();
+                var elemTop = $(GLOBALS.Opts.Selectors.Product + ':visible:last', GLOBALS.ParentProductsWrapper).offset().top;
+                var elemBottom = elemTop + $(GLOBALS.Opts.Selectors.Product + ':visible:last', GLOBALS.ParentProductsWrapper).height();
                 if (!GLOBALS.IsRequestOn && (elemBottom <= docViewBottom) && (elemTop >= docViewTop)) {
                     GLOBALS.Opts.CallBackBeforePageLoad();
                     Helpers.SetUpUrlToLoad();
@@ -62,10 +62,12 @@ Author: @Tricky3
             if (GLOBALS.Opts.WaitForImagesToBeLoaded) {
                 var totalImages = $('img', products).length;
                 var index = 1;
+                var callBackFired = false;
                 $('img', products).load(function () {
                     index++;
-                    if (index >= totalImages && GLOBALS.IsRequestOn) {
+                    if (index >= totalImages && GLOBALS.IsRequestOn && !callBackFired) {
                         Helpers.FireAllCallBacks(products);
+                        callBackFired = true;
                     }
                 }).each(function () {
                     if (this.complete)
@@ -165,7 +167,7 @@ Author: @Tricky3
             },
             HashUrlAndAddPageAttributesToProducts: function (products) {
                 var pageNumber = Helpers.GetParameterByName(GLOBALS.UrlToLoad, GLOBALS.Opts.PageQueryStringKey);
-                if (pageNumber){
+                if (pageNumber) {
                     $(GLOBALS.Opts.Selectors.Product, products).attr('data-pagenumber', pageNumber);
                     window.location.hash = GLOBALS.Opts.PageQueryStringKey + '=' + pageNumber;
                 }
