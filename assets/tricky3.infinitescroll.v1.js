@@ -35,6 +35,7 @@ Author: @Tricky3
         GLOBALS.NeedToLoadOnlyPreviousPages = GLOBALS.PreviousPageLink.length == 1 && GLOBALS.NextPageLink.length == 0;
         GLOBALS.NeedToLoadBothPreviousAndNextPages = GLOBALS.PreviousPageLink.length == 1 && GLOBALS.NextPageLink.length == 1;
         GLOBALS.UpdateHashOnWindowScrollLoaded = false;
+		var windowResizeTimer;
 
         var trickyInfiniteScroll = function () {
             if (GLOBALS.NextPageLink != null && GLOBALS.NextPageLink.length == 1 || GLOBALS.PreviousPageLink != null && GLOBALS.PreviousPageLink.length == 1) {
@@ -200,6 +201,16 @@ Author: @Tricky3
 
         //hooking scroll event to window.
         $(window).bind('scroll.trickyInfiniteScroll', trickyInfiniteScroll);
+		$(window).resize(function(){
+			if(windowResizeTimer){
+			   clearTimeout(windowResizeTimer);
+			}
+
+			windowResizeTimer = setTimeout(function(){
+				$(window).unbind('scroll.trickyInfiniteScroll');
+				$(window).bind('scroll.trickyInfiniteScroll', trickyInfiniteScroll);
+			}, 1000);
+		});
     };
 })(jQuery);
 
