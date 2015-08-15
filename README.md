@@ -11,15 +11,15 @@ Options
 ``` javascript
 Selector:{
   ParentProductWrapper: 'PARENTSELECTOR', // The main wrapper
-  Product:'ChildSelector', // product items 
+  Product:'ChildSelector', // product items
   NextPageLink:'NextPageLinkSelector', // Next page link, should be unique on the page
   PreviousPageLink:'PreviousPageLinkSelector', // Previous page link, should be unique on the page
 },
 CallBackBeforePageLoad:function(){}, // executed before the next page is loaded
 CallBackOnPageLoad:function(){}, // executed after a next page has been loaded
 CallBack:function(){}, // executed after all next pages have been loaded
-
 ```
+
 ``` HTML
 {% if template contains 'collection' %}
   {{ 'tricky3.infinitescroll.v1.js' | asset_url | script_tag }}
@@ -36,12 +36,12 @@ CallBack:function(){}, // executed after all next pages have been loaded
         EnableHasherModule:true, // adds hash tags on the window location href for URL bookmarks
         CallBack:function(){},
         CallBackOnPageLoad:function(){
-          // example showing a loading image
-          // $('PARENTSELECTOR').append('<div class="LOADING-IMAGE-CLASS"/>');
+          // removing the loading image
+          // $('LOADING-IMAGE-CLASS').remove();
         },
         CallBackBeforePageLoad:function(){
-          // removing the loading image
-          // $('PARENTSELECTOR LOADING-IMAGE-CLASS').remove();
+          // example showing a loading image
+          // $('PARENTSELECTOR').append('<div class="LOADING-IMAGE-CLASS"/>');
         }
       };
       $(PARENTSELECTOR).TrickyInfiniteScroll(options);
