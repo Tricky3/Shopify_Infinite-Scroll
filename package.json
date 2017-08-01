@@ -1,5 +1,5 @@
 {
-  "name": "Tricky3 Infinite Scroll",
+  "name": "tricky3-infinite-scroll",
   "version": "1.0.0",
   "description": "Infinite scrolling plugin for Shopify Themes",
   "main": "gulpfile.js",

@@ -8,7 +8,7 @@ var rename = require('gulp-rename');
 var del = require('del');
 
 // identify Shopify assets
-var assets = './theme/assets/'
+var assets = './assets/'
 var jsScripts = [assets + 'tricky3.*js', '!' + assets + 'tricky3*.min.js'];
 
 // minify scripts
@@ -25,7 +25,6 @@ gulp.task('scripts', function(){
 });
 
 // Watch
-
 gulp.task('watch-scripts', function(){
   var tasks = ['scripts'];
   gulp.watch([jsScripts], tasks);
