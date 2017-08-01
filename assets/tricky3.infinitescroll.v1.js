@@ -2,7 +2,7 @@
 Version v1.0
 Author: @Tricky3
 */
-(function ($) {
+;(function ($) {
     $.fn.TrickyInfiniteScroll = function (options) {
         var GLOBALS = {
             ParentProductsWrapper: null,
@@ -41,15 +41,19 @@ Author: @Tricky3
             if (GLOBALS.NextPageLink != null && GLOBALS.NextPageLink.length == 1 || GLOBALS.PreviousPageLink != null && GLOBALS.PreviousPageLink.length == 1) {
                 var docViewTop = $(window).scrollTop();
                 var docViewBottom = docViewTop + $(window).height();
-                var elemTop = $(GLOBALS.Opts.Selectors.Product + ':visible:last', GLOBALS.ParentProductsWrapper).offset().top;
+				var lastVisibleElement = $(GLOBALS.Opts.Selectors.Product + ':visible:last', GLOBALS.ParentProductsWrapper);
+                var elemTop = lastVisibleElement.length ? $(GLOBALS.Opts.Selectors.Product + ':visible:last', GLOBALS.ParentProductsWrapper).offset().top : $(GLOBALS.Opts.Selectors.Product + ':last', GLOBALS.ParentProductsWrapper).offset().top;
                 var elemBottom = elemTop + $(GLOBALS.Opts.Selectors.Product + ':visible:last', GLOBALS.ParentProductsWrapper).height();
-                if (!GLOBALS.IsRequestOn && (elemBottom <= docViewBottom) && (elemTop >= docViewTop)) {
+
+                if (!GLOBALS.IsRequestOn && (elemBottom <= docViewBottom)) {
+                	T3Core.Debug('Loading next page...');
                     GLOBALS.Opts.CallBackBeforePageLoad();
                     Helpers.SetUpUrlToLoad();
                     $.get(GLOBALS.UrlToLoad, successCallBack);
                     GLOBALS.IsRequestOn = true;
                 }
             } else {
+            	T3Core.Debug('Ended, scroll event removed.');
                 GLOBALS.Opts.CallBack();
                 $(window).unbind('scroll.trickyInfiniteScroll');
             }
