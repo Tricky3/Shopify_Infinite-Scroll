@@ -1,37 +1,33 @@
 {
-  "name": "tricky3-shopify-infinite-scroll",
+  "name": "Tricky3 Infinite Scroll",
   "version": "1.0.0",
-  "description": "Infinite scroller for mainly shopify collection pages but can be used on other pages as well",
-  "main": "index.js",
+  "description": "Infinite scrolling plugin for Shopify Themes",
+  "main": "gulpfile.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "test"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Tricky3/Shopify_Infinite-Scroll.git"
   },
   "keywords": [
-    "shopify"
+    "shopify scroll pagination"
   ],
   "author": "Tricky3",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Tricky3/Shopify_Infinite-Scroll/issues"
   },
-  "homepage": "https://github.com/Tricky3/Shopify_Infinite-Scroll#readme",
+  "homepage": "https://github.com/Tricky3/Shopify_Infinite-Scroll",
   "dependencies": {
-    "gulp-plumber": "^1.1.0",
-    "gulp": "^3.9.1"
-  },
-  "devDependencies": {
-    "del": "^2.2.0",
+    "del": "^3.0.0",
     "gulp": "^3.9.1",
-    "gulp-concat": "^2.6.0",
-    "gulp-concat-util": "^0.5.5",
-    "gulp-plumber": "^1.1.0",
+    "gulp-concat": "^2.6.1",
     "gulp-rename": "^1.2.2",
     "gulp-strip-debug": "^1.1.0",
     "gulp-tinify": "^1.0.2",
-    "gulp-uglify": "^1.5.3"
+    "gulp-uglify": "^3.0.0",
+    "lodash": "^4.13.1",
+    "pump": "^1.0.2"
   }
 }

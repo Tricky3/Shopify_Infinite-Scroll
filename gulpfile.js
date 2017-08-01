@@ -1,32 +1,30 @@
 var gulp = require('gulp');
-var plumber = require('gulp-plumber');
+var pump = require('pump');
+var tinify = require('gulp-tinify');
+var concat = require('gulp-concat');
 var stripDebug = require('gulp-strip-debug');
 var uglify = require('gulp-uglify');
 var rename = require('gulp-rename');
 var del = require('del');
 
-// gulp plumber error handler
-var onError = function(err){
-  console.log(err);
-}
-
 // identify Shopify assets
-var assets = './assets/'
-var jsScripts = [assets + 'tricky3.infinitescroll.v1.*js', '!' + assets + 'tricky3.infinitescroll.v1*.min.js'];
+var assets = './theme/assets/'
+var jsScripts = [assets + 'tricky3.*js', '!' + assets + 'tricky3*.min.js'];
 
-// minify custom scripts
+// minify scripts
 gulp.task('scripts', function(){
-  return gulp.src(jsScripts)
-  .pipe(plumber({
-    errorHandler:onError
-  }))
-  .pipe(rename(function(script) {
-    script.extname = '.min.js';
-    return script;
-  }))
-  .pipe(uglify())
-  .pipe(gulp.dest(assets));
+  pump([
+    gulp.src(jsScripts),
+    rename(function(script) {
+      script.extname = '.min.js';
+      return script;
+    }),
+    uglify(),
+    gulp.dest(assets)
+  ])
 });
+
+// Watch
 
 gulp.task('watch-scripts', function(){
   var tasks = ['scripts'];
