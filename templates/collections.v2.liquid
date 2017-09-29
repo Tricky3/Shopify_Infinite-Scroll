@@ -1,0 +1,21 @@
+{% paginate collection.products by 20 %}
+<ul class="items-wrapper">
+ {% for product in collection.products %}
+ <li id="product-{{ forloop.index | plus:paginate.current_offset }}" class="product-item">
+  {% include 'product' with product %}
+ </li> 
+ {% endfor %}
+ <div class="component-pagination">
+  {%- if paginate.next -%}
+	<span class="next-page-wrapper">
+	  <a href="{{ paginate.next.url }}" id="paginatie-next">More posts</a>
+	</span>
+  {%- endif -%}
+  {%- if paginate.previous -%}
+	<span>
+	  <a href="{{ paginate.previous.url }}" id="paginatie-previous">Previous posts</a>
+	</span>
+  {%- endif -%}
+  </div>
+</ul>
+{% endpaginate %}

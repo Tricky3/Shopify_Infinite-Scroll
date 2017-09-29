@@ -1,0 +1,12 @@
+<div class="pagination-wrapper">
+  {%- if paginate.next -%}
+	<span class="next-page-wrapper">
+	  <a href="{{ paginate.next.url }}" id="paginatie-next">More posts</a>
+	</span>
+  {%- endif -%}
+  {%- if paginate.previous -%}
+	<span>
+	  <a href="{{ paginate.previous.url }}" id="paginatie-previous">Previous posts</a>
+	</span>
+  {%- endif -%}
+</div>
