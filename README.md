@@ -1,68 +1,49 @@
-Tricky3 Infinite Scroll V2
-=========
-File: tricky3.infinite-scroll.v2.js
-Minified file: tricky3.infinite-scroll.v2.min.js
-Revised version of the version 1 plugin. It has option to load next or previous pages manually.
+# Tricky3 Infinite Scroll V2
 
-Options
----------
+
+## Options
+
 ``` javascript
 selectors: {
-    /*Mandatory: the wrapper selector that hold all the items*/
-    itemsWrapper: '.main-wrapper',
-    
-    /*Mandatory: the item selector*/
-    item: '.item',
-    
-    /*Mandatory: the next page selector, ref: snippets/pagination.v2.liquid*/
-    nextPageLink: '#paginatie-next', 
-    
-    /*Mandatory: the next page selector, ref: snippets/pagination.v2.liquid*/
-    previousPageLink: '#paginatie-previous', 
-    
-    /*Not mandatory, by default scroll will be hooked up to window element but if you page have different, you will need to provide a selector on which to listen scroll events, not needed if "manualLoading" is true*/
-    scrollableElem: null,
-    
-    /*Mandatory, the pagination wrapper element, ref: snippets/pagination.v2.liquid*/
-    paginationWrapper: '.pagination-wrapper'
+    // Required
+    itemsWrapper: '.main-wrapper', // the wrapper selector that holds all the items
+    item: '.item', // the item selector
+    paginationWrapper: '.pagination-wrapper', // the pagination wrapper element, ref: snippets/pagination.v2.liquid*/
+    nextPageLink: '#paginate-next', // the next page selector, ref: snippets/pagination.v2.liquid    
+    previousPageLink: '#paginate-previous', // the previous page selector, ref: snippets/pagination.v2.liquid
+
+    // optional
+    scrollableElem: null, // scroll will be attached to window element but you can specify a different viewport (not needed if "manualLoading" is true)
   },
   
-  /*Not mandatory, default is page and ignored when "manualLoading" option is false*/
-  pageQueryStringKey: 'page',
-  
-  /*Not mandatory, default is false, this option will wait for all images to be loaded before items are added to the page.*/
+  // Optional Config
+  manualLoading: false, // activates manual loading vs "infinite scrooooooll"
   waitForImagesToBeLoaded: false,
-  
-  /*Not mandatory, default is false and will be ignored when "manualLoading" option is false*/
   enablePageState: false,
-  
-  /*Not mandatory, default is false, this option activates manual loading that is user will have to click next/previous links for items to be loaded dynamically on the page.*/
-  manualLoading: false,
-  
-  //Not mandatory, default is 100 and ignored when "manualLoading" option is true
+  pageQueryStringKey: 'page',
   throttleDelay: 100,
   
   callBacks: {
-    /*this function will be triggered when all pages have been loaded*/
-    onAllPagesLoaded: function(){
-    },
     
-    /*this function will be triggered when a page has loaded*/
-    onPageLoad: function(items){
-    },
-    
-    /*this function will be triggered before a page starts to load*/
     beforePageLoad: function(){
+        // triggered before a page starts to load
+    },
+    onPageLoad: function(items){
+        // triggered when a page has loaded
+    },
+    onAllPagesLoaded: function(){
+        // triggered when all pages have been loaded
     }
+    
   }
 ```
 
-Example of how to use
----------
+## Usage
+
 ``` HTML
 {% if template contains 'collection' %}
   {{ 'tricky3.infinite-scroll.v2.min.js' | asset_url | script_tag }}
-    <script>
+  <script>
     //Ref: templates/collections.v2.liquid
     $(function(){
         var itemsWrapper = '.products-wrapper';
@@ -127,18 +108,12 @@ Example of how to use
 {% endif %}
 ```
 
-=========
-=========
-=========
-=========
 
-Tricky3 Infinite Scroll V1
-=========
+# Tricky3 Infinite Scroll V1
 
 Scroll plugin that loads next pages and appends elements to the current page. This plugin has been developed mainly to use in Shopify themes, especially on Collection templates, but it can be used for Shopify Blogs and also in any other websites.
 
-Options
----------
+## Options
 
 ``` javascript
 Selector:{
@@ -152,8 +127,8 @@ CallBackOnPageLoad:function(){}, // executed after a next page has been loaded
 CallBack:function(){}, // executed after all next pages have been loaded
 ```
 
-Example of how to use
----------
+## Usage
+
 ``` HTML
 {% if template contains 'collection' %}
   {{ 'tricky3.infinite-scroll.min.js' | asset_url | script_tag }}
