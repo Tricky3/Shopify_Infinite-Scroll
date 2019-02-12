@@ -21,7 +21,7 @@
   "homepage": "https://github.com/Tricky3/Shopify_Infinite-Scroll",
   "dependencies": {
     "del": "^3.0.0",
-    "gulp": "^3.9.1",
+    "gulp": "^4.0.0",
     "gulp-concat": "^2.6.1",
     "gulp-rename": "^1.2.2",
     "gulp-strip-debug": "^1.1.0",

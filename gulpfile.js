@@ -12,8 +12,8 @@ var assets = './assets/'
 var jsScripts = [assets + 'tricky3.*js', '!' + assets + 'tricky3*.min.js'];
 
 // minify scripts
-gulp.task('scripts', function(){
-  pump([
+function scripts(){
+  return pump([
     gulp.src(jsScripts),
     rename(function(script) {
       script.extname = '.min.js';
@@ -22,12 +22,18 @@ gulp.task('scripts', function(){
     uglify(),
     gulp.dest(assets)
   ])
-});
+}
+gulp.task('scripts', scripts);
 
 // Watch
-gulp.task('watch-scripts', function(){
-  var tasks = ['scripts'];
-  gulp.watch([jsScripts], tasks);
-});
+function watchScripts() {
+  gulp.watch(jsScripts)
+  .on('change', function(path, stats){
+    scripts();
+    console.log('File ' + path + ' was changed');
+  });
+}
 
-gulp.task('default', ['watch-scripts']);
+gulp.task('watch-scripts', watchScripts);
+
+gulp.task('default', watchScripts);
