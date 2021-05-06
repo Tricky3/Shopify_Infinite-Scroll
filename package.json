@@ -27,7 +27,7 @@
     "gulp-strip-debug": "^3.0.0",
     "gulp-tinify": "^1.0.2",
     "gulp-uglify": "^3.0.2",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.21",
     "pump": "^1.0.3"
   }
 }
